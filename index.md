@@ -24,4 +24,4 @@ At the end of this workshop, you will be able to:
 | 1:00 | Wrap-up and Discussion |
 
 ## Resources
-* [eg. link to external slides]
+<a href="https://guides.library.ubc.ca/datastatistics/microdata#:~:text=Microdata%20provides%20a%20way%20to,considerations%20for%20privacy%20and%20confidentiality." target="_blank">UBC microdata</a>
