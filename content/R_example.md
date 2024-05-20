@@ -45,7 +45,9 @@ ggplot(tab2022, aes(x=as.factor(AGEGROUP), group=GENDER, fill=as.character(GENDE
 <img src="images/age_breakdown.png" alt="outline" width="50%"/>
 </div>
 
-![](images/AGEGROUP.png)
+<div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
+<img src="images/AGEGROUP.png" alt="outline" width="60%"/>
+</div>
 
 Is this the actual age breakdown of the Canadian population?
 
