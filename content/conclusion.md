@@ -1,6 +1,6 @@
 ---
 layout: default
-title: R examples
+title: Conclusion
 nav_order: 11
 ---
 # Final thoughts
