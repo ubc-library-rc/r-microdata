@@ -100,7 +100,7 @@ knitr::kable(try)
 
 Overall, we see that of the people who currently smoke cigarettes, most of them first smoked cigarettes.
 
-There is a problem here. E-cigarettes/vapes were only invented in <a href="https://en.wikipedia.org/wiki/Electronic_cigarette" target=_blank">2003</a>, so our current table could be biased by age, with older people not having access to e-cigarettes as a "first try option" when they were younger.
+There is a problem here. E-cigarettes/vapes were only invented in <a href="https://en.wikipedia.org/wiki/Electronic_cigarette" target="_blank">2003</a>, so our current table could be biased by age, with older people not having access to e-cigarettes as a "first try option" when they were younger.
 
 ``` r
 ## make a summary table by the first thing participants tried smoking by age group
