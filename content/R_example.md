@@ -3,10 +3,11 @@ layout: default
 title: R examples
 nav_order: 10
 ---
+# Practial example of data analysis in R
 
-#Datasets for today's workshop
+## Datasets for today's workshop
 
-We are working with two years (<a href="https://hdl.handle.net/11272.1/AB2/UYC0Z8" target="_blank">2020</a> and <a href="https://hdl.handle.net/11272.1/AB2/PWWFK3" target="_blank">2022</a>) of the Canadian Tobacco, Alcohol and Drugs Survey available on abacus.
+We are working with two years (<a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/UYC0Z8/AL2XVX&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/1SCDAE&version=1.0" target="_blank">2022</a>) of the Canadian Tobacco, Alcohol and Drugs Survey available on abacus.
 
 We will start with the 2022 dataset, then combine it with the 2020 dataset later to practice working with two datasets.
 
@@ -40,8 +41,9 @@ ggplot(tab2022, aes(x=as.factor(AGEGROUP), group=GENDER, fill=as.character(GENDE
   scale_fill_manual(values=c("#27E57A", "#7A27E5", "#E57A27"))+
   labs(x="Age Group", y="Number of Responses", fill="Gender")
 ```
-
-![](images/age_breakdown.png)
+<div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
+<img src="images/age_breakdown.png" alt="outline" width="50%"/>
+</div>
 
 ![](images/AGEGROUP.png)
 
@@ -81,7 +83,7 @@ knitr::kable(try)
 
 Overall, we see that of the people who currently smoke cigarettes, most of them first smoked cigarettes.
 
-There is a problem here. [E-cigarettes/vapes were only invented in 2003,](https://en.wikipedia.org/wiki/Electronic_cigarette#:~:text=investigation%20is%20ongoing.-,History,since%20as%20early%20as%201963.) so our current table could be biased by age, with older people not having access to e-cigarettes as a "first try option" when they were younger.
+There is a problem here. E-cigarettes/vapes were only invented in <a href="https://en.wikipedia.org/wiki/Electronic_cigarette" target=_blank">2003</a>, so our current table could be biased by age, with older people not having access to e-cigarettes as a "first try option" when they were younger.
 
 ``` r
 ## make a summary table by the first thing participants tried smoking by age group
@@ -202,6 +204,11 @@ What do you notice about this plot?
 Comparing datasets at this broad level allows us to set up our analyses correctly. For help on how to account or different sample sizes and other statistical questions, see the <a href="https://www.stat.ubc.ca/how-can-you-get-help-your-data" target="_blank">UBC statistics department.</a>
 
 ## Reading in sav files into R
+
+Most of the time, survey data is provided as .sav files. 
+Because .sav is not a standard format that R can read, an additional library is required to read in the .sav file. 
+Notice how we have read_sav instead of read.csv like in the previous examples? Reading in differnt file types requires different syntax. 
+The procedure to analyze the data is the same once the .sav files are loaded into R. 
 
 ``` r
 ## load packages
