@@ -212,10 +212,12 @@ ggplot(tab, aes(x=as.factor(AGEGROUP), fill=as.factor(survey_year)))+
 
 What do you notice about this plot?
 
-- Y-axes in A vs B
-- Statistical weights
-- Overall participant numbers
-- Gender breakdown
+- Y-axes in A vs B: Which plot is easier to read?
+- Statistical weights: Does this plot represent the actual age and gender distribution of Canada?
+- Gender breakdown: Which gender identitied are likely underepresented in the data. Is this more of a problem in some age gropus than others? 
+- Overall participant numbers between years
+- What breakdown would you like to see before analyzing the data? Maybe, socioeconomic status, race, or marital stutus? 
+
 
 Comparing datasets at this broad level allows us to set up our analyses correctly. For help on how to account or different sample sizes and other statistical questions, see the <a href="https://www.stat.ubc.ca/how-can-you-get-help-your-data" target="_blank">UBC statistics department.</a>
 
