@@ -5,6 +5,20 @@ nav_order: 10
 ---
 # Practial example of data analysis in R
 
+## Reading in sav files into R
+
+Most of the time, survey data is provided as .sav files. 
+Because .sav is not a standard format that R can read, an <strong>additional library is required to read in the .sav file </strong>. 
+Also, notice how we have `read_sav` instead of `read.csv` like in the previous examples? Reading in differnt file types requires different syntax. 
+The procedure to analyze the data is the same once the .sav files are loaded into R. 
+
+``` r
+## load packages
+library(haven)
+
+sav2022 = read_sav("ctns_2020_pumf_bsw_eng.sav")
+```
+
 ## Datasets for today's workshop
 
 We are working with two years (<a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/UYC0Z8/AL2XVX&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/1SCDAE&version=1.0" target="_blank">2022</a>) of the Canadian Tobacco, Alcohol and Drugs Survey available on abacus.
@@ -221,18 +235,5 @@ What do you notice about this plot?
 
 Comparing datasets at this broad level allows us to set up our analyses correctly. For help on how to account or different sample sizes and other statistical questions, see the <a href="https://www.stat.ubc.ca/how-can-you-get-help-your-data" target="_blank">UBC statistics department.</a>
 
-## Reading in sav files into R
-
-Most of the time, survey data is provided as .sav files. 
-Because .sav is not a standard format that R can read, an <strong>additional library is required to read in the .sav file </strong>. 
-Also, notice how we have `read_sav` instead of `read.csv` like in the previous examples? Reading in differnt file types requires different syntax. 
-The procedure to analyze the data is the same once the .sav files are loaded into R. 
-
-``` r
-## load packages
-library(haven)
-
-sav2022 = read_sav("ctns_2020_pumf_bsw_eng.sav")
-```
 
 
