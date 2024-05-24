@@ -12,46 +12,38 @@ Because .sav is not a standard format that R can read, an <strong>additional lib
 Also, notice how we have `read_sav` instead of `read.csv` like in the previous examples? Reading in differnt file types requires different syntax. 
 The procedure to analyze the data is the same once the .sav files are loaded into R. 
 
-``` r
-## load packages
-library(haven)
-
-sav2022 = read_sav("ctns_2020_pumf_bsw_eng.sav")
-```
 
 ## Datasets for today's workshop
 
-We are working with two years (<a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/UYC0Z8/AL2XVX&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/1SCDAE&version=1.0" target="_blank">2022</a>) of the Canadian Tobacco, Alcohol and Drugs Survey available on abacus.
+We are working with two years (<a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/UYC0Z8/XVITQW&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/4K96XZ&version=1.0" target="_blank">2022</a>) of the Canadian Tobacco, Alcohol and Drugs Survey available on abacus.
 
 We will start with the 2022 dataset, then combine it with the 2020 dataset later to practice working with two datasets.
 
 Note, you are encouraged to code along in R with this section, but it is not required. If you are unfamiliar with R and RStudio, you may want to go over the Beginner R <a href="https://ubc-library-rc.github.io/Beginner_R_Part1/" target="_blank">part 1</a> and <a href="https://ubc-library-rc.github.io/Beginner_R_Part2/" target="_blank">part 2</a> workshops. 
 
 ## Set up the analysis
-- After downloading the <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/UYC0Z8/AL2XVX&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/1SCDAE&version=1.0" target="_blank">2022</a> data, make sure to unzip the files.
+- After downloading the <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/4K96XZ&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/4K96XZ&version=1.0" target="_blank">2022</a> data, make sure to unzip the files.
 - Put both .csv files in the same spot on your computer.
-- In RStudio, set your <a href="https://ubc-library-rc.github.io/Beginner_R_Part1/content/about_R.html#set-up-part-2-tell-r-where-to-get-data" target="_blank">working directory</a> to where the .csv files are
+- In RStudio, set your <a href="https://ubc-library-rc.github.io/Beginner_R_Part1/content/about_R.html#set-up-part-2-tell-r-where-to-get-data" target="_blank">working directory</a> to where the files are
 - If you do not have the required packages installed, install them running these lines of code anywhere in RStudio.
+
+
   
 ``` r
 ## Install packages (only needs to be run once on your computer, then never again).
 install.packages("tidyverse")
 install.packages("plyr")
 install.packages("haven")
-```
 
-## Reading in plain text data into R
-
-``` r
-## load packages (needs to be run every time you want to use that package).
+## load packages
 library(tidyverse)
 library(plyr)
+library(haven)
 
-# 2020 survey data
-tab2020 = read.csv("ctns.csv")
-# 2022 survey data
-tab2022 = read.csv("CTNS2022_P.csv")
+tab2020 = read_sav("ctns_2020_pumf_bsw_eng.sav")
+tab2022 = read_sav("")
 ```
+
 
 ## Reducing clutter
 
