@@ -33,12 +33,10 @@ Note, you are encouraged to code along in R with this section, but it is not req
 ## Install packages (only needs to be run once on your computer, then never again).
 install.packages("tidyverse")
 install.packages("plyr")
-install.packages("haven")
 
 ## load packages
-library(tidyverse)
+library(tidyverse) # contains haven to read .sav files
 library(plyr)
-library(haven)
 
 tab2020 = read_sav("ctns_2020_pumf_bsw_eng.sav")
 tab2022 = read_sav("")
