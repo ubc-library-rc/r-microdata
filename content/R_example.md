@@ -4,9 +4,9 @@ title: R examples
 nav_order: 10
 ---
 
-# Practial example of data analysis in R
+# Practical example of data analysis in R
 
-## Reading in sav files into R
+## Reading in .sav files into R
 
 Most of the time, survey data is provided as .sav files. Because .sav is not a standard format that R can read, an <strong>additional library is required to read in the .sav file </strong>. Here, we use the package `haven`.
 
@@ -103,17 +103,42 @@ ggplot(tab2022, aes(x=as.factor(AGEGROUP), group=GENDER, fill=as.character(GENDE
 ## only keep current smokers
 cig = subset(tab2022, tab2022$TBC_05A==1)
 
-## create a new column where FIRSTTRR is weigthed
+## answer our question
+cig.sum <- cig %>%
+  group_by(FIRSTTRR) %>% # group by the first smoking device tried
+  summarize(Population = sum(WTPP)) %>% #get weighted totals
+  mutate(Percentage = 100*Population/sum(Population)) #calculate percentages
+  
+## plot to visualize the data in the table below  
+ggplot(cig.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
+  geom_col() +
+  coord_flip()  
 ```
+
+::: {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px"}
+<img src="images/pooled_first_try.png" alt="outline" width="60%"/>
+:::
+
+There is a problem here. <a href="https://en.wikipedia.org/wiki/Electronic_cigarette" target="_blank">E-cigarettes only really entered the market in 2003</a>, so older age group did not have e-cigarettes available as a "first try option". Let's break down the data by age group.
 
 ``` r
 ## make a summary table by the first thing participants tried smoking by age group
+
+cig.age.sum <- cig %>%
+  group_by(FIRSTTRR, AGEGROUP) %>% # group by the first smoking device tried
+  summarize(Population = sum(WTPP), .groups = 'drop') %>% #get weighted totals
+  mutate(Percentage = 100*Population/sum(Population)) #calculate percentages
+  
+ggplot(cig.age.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
+  geom_col() +
+  coord_flip()+
+  facet_grid(AGEGROUP~.)
 ```
 
-``` r
-## only keep target age group that vape
-ag20to24 = subset(tab2022, tab2022$AGEGROUP=="2" & tab2022$VAP_10R %in% c(1, 2, 3))
-```
+::: {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px"}
+<img src="images/try_by_age.png" alt="outline" width="60%"/>
+:::
+
 
 ## Working with two years of data.
 
