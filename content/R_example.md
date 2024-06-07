@@ -16,14 +16,14 @@ We are working with two years (<a href="https://abacus.library.ubc.ca/file.xhtml
 
 We will start with the 2022 dataset, then combine it with the 2020 dataset later to practice working with two datasets.
 
-Note, you are encouraged to code along in R with this section, but it is not required. If you are unfamiliar with R and RStudio, you may want to go over the Beginner R <a href="https://ubc-library-rc.github.io/Beginner_R_Part1/" target="_blank">part 1</a> and <a href="https://ubc-library-rc.github.io/Beginner_R_Part2/" target="_blank">part 2</a> workshops if you are working through this workshop on your own.
+Note, you are encouraged to code along in R with this section, but it is not required. If you are unfamiliar with R and RStudio, you may want to go over the Beginner R <a href="https://ubc-library-rc.github.io/Beginner_R_Part1/" target="_blank">part 1</a> and <a href="https://ubc-library-rc.github.io/Beginner_R_Part2/" target="_blank">part 2</a> workshops.
+
+We also cover material that we present more in depth in the <a href="https://ubc-library-rc.github.io/ggplot2_intro_workshop/" target="_blank">ggplot2</a>, <a href="https://ubc-library-rc.github.io/relational-data-r/" target="_blank">joining tables</a>, and <a href="https://ubc-library-rc.github.io/intro_to_tidyverse/" target="_blank">tidyverse</a> workshops. 
 
 ## Set up the analysis
 
--   After downloading the <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/4K96XZ&version=1.0" target="_blank">2020</a> and <a href="https://abacus.library.ubc.ca/file.xhtml?persistentId=hdl:11272.1/AB2/PWWFK3/4K96XZ&version=1.0" target="_blank">2022</a> data, make sure to unzip the files.
--   Put both .csv files in the same spot on your computer.
--   In RStudio, set your <a href="https://ubc-library-rc.github.io/Beginner_R_Part1/content/about_R.html#set-up-part-2-tell-r-where-to-get-data" target="_blank">working directory</a> to where the files are
--   If you do not have the required packages installed, install them running these lines of code anywhere in RStudio.
+First, we will install (if needed) and load the packages we need for the workshop.
+Then we will download the files from abacus, unzip them, and read them into R.
 
 ``` r
 ## Install packages (only needs to be run once on your computer, then never again).
@@ -64,13 +64,13 @@ ggplot(tab2022, aes(x=as.factor(AGEGROUP), group=GENDER, fill=as.character(GENDE
   labs(x="Age Group", y="Number of Responses", fill="Gender")
 ```
 
-::: {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px"}
-<img src="images/age_breakdown.png" alt="outline" width="50%"/>
-:::
+<div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
+<img src="images/age_breakdown.png" alt="unweigthed bargraph" width="50%"/>
+</div>
 
-::: {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px"}
+<div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
 <img src="images/AGEGROUP.png" alt="outline" width="60%"/>
-:::
+</div>
 
 Is this the actual age breakdown of the Canadian population?
 
@@ -115,9 +115,9 @@ ggplot(cig.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
   coord_flip()  
 ```
 
-::: {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px"}
+<div {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
 <img src="images/pooled_first_try.png" alt="outline" width="60%"/>
-:::
+</div>
 
 There is a problem here. <a href="https://en.wikipedia.org/wiki/Electronic_cigarette" target="_blank">E-cigarettes only really entered the market in 2003</a>, so older age group did not have e-cigarettes available as a "first try option". Let's break down the data by age group.
 
@@ -135,10 +135,9 @@ ggplot(cig.age.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
   facet_grid(AGEGROUP~.)
 ```
 
-::: {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px"}
-<img src="images/try_by_age.png" alt="outline" width="60%"/>
-:::
-
+<div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
+<img src="images/try_by_age.png" alt="outline" width="90%"/>
+</div>
 
 ## Working with two years of data.
 
