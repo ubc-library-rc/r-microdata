@@ -138,6 +138,7 @@ ggplot(cig.age.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
 <div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
 <img src="images/try_by_age.png" alt="outline" width="90%"/>
 </div>
+<em>Note the different x-axes between these two plots.</em>
 
 ## Working with two years of data.
 
