@@ -116,7 +116,7 @@ ggplot(cig.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
 ```
 
 <div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
-<img src="images/pooled_first_try.png" alt="outline" width="60%"/>
+<img src="images/pooled_first_try.png" alt="outline" width="40%"/>
 </div>
 
 There is a problem here. <a href="https://en.wikipedia.org/wiki/Electronic_cigarette" target="_blank">E-cigarettes only really entered the market in 2003</a>, so older age group did not have e-cigarettes available as a "first try option". Let's break down the data by age group.
