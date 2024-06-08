@@ -186,8 +186,6 @@ ggplot(tab, aes(x=as.factor(AGEGROUP), fill=as.factor(survey_year)))+
 ![](images/both_years_age.png)
 
 What do you notice about this plot?
-
--   Y-axes in A vs B: Which plot is easier to read?
 -   Statistical weights: Does this plot represent the actual age and gender distribution of Canada?
 -   Gender breakdown: Which gender identities are likely underrepresented in the data. Is this more of a problem in some age groups than others?
 -   Overall participant numbers between years
