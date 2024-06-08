@@ -115,7 +115,7 @@ ggplot(cig.sum, aes(x=as.factor(FIRSTTRR), y=Percentage)) +
   coord_flip()  
 ```
 
-<div {style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
+<div style="margin-left: 5%; margin-top: 20px; margin-bottom: 60px">
 <img src="images/pooled_first_try.png" alt="outline" width="60%"/>
 </div>
 
