@@ -108,7 +108,7 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 ### CTNS 2022
 
 | variable   | notes                                                                        |
-|-----------------------|-------------------------------------------------|
+|-----------------------|------------------------------------------------|
 | GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
 | AGEGROUP   | age groups from 15 to 65+                                                    |
 | *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
@@ -139,21 +139,6 @@ tbl_svysummary(ctns2020, include=DV_SSR, by=HHLDSIZE)
 
 The second table comes with a warning: in 70 records the HHLDSIZE variable is *na* and these were removed from the analysis.
 
-### Practice #1 (move to extra half-hour)
-
-Copy the two-variable example and try one or more of the following:
-
--   Create your own table with different variables.
--   Swap the *by* and *include* variables. How does this affect the percentages?
--   Remove the *include* part of the command. What happens?
--   **Advanced**: consult the *tbl_svysummary* documentation and figure out how to display all percentages to one decimal place.
-
-```{r}
-# Practice space
-
-
-
-```
 
 ## Create plots
 
@@ -222,12 +207,16 @@ plot2_data_2022 <- ctns2022 %>%
   filter(DV_SS == 'Current smoker') %>%
   mutate(year = "2022") %>%
   rename(smoking_status = DV_SS)
+```
 
+### Step 3: join the 2020 and 2022 data together
+
+```{r}
 plot2_data <- full_join(plot2_data_2020, plot2_data_2022)
 
 ```
 
-### Step 3: plot the data
+### Step 4: plot the data
 
 ```{r}
 
@@ -245,12 +234,30 @@ When calculating percentages we added the *vartype="ci"* parameter to generate c
 
 plot2_data %>%
   ggplot(aes(x=year, y=percent, group=AGEGROUP))+
-  geom_line(color="blue")+
-  geom_ribbon(aes(ymin = percent_low, 
-                  ymax = percent_upp), 
-                  fill = "gray", alpha = 0.5) +
+  geom_errorbar(aes(ymin=percent_low, ymax=percent_upp), width=0.2) +
+  geom_point()+
   facet_wrap(vars(AGEGROUP))
 
 ```
 
 The graph makes it clear that the confidence intervals are relatively wide for some age groups: we can't say with 95% certainty that the actual direction of change in the percentage of smokers in Canada matches what we see in this survey sample.
+
+### Step 5: Customize the plot 
+This is meant as an illustrative example of how customization plots made with ggplot2 are. There are many options for customization, so this is by no means extensive. 
+
+```{r}
+
+plot2_data %>%
+  ggplot(aes(x=year, y=percent, group=AGEGROUP))+
+  geom_errorbar(aes(ymin=percent_low, ymax=percent_upp), 
+                width=0.4, ## change the witdh of the top and bottom horizontal line of the error bar
+                color="#737574", ## change the color of error bars (hex color)
+                linewidth=2) + ## linewidth makes the error bar lines wider or thinner
+  geom_point(cex=5, aes(colour = year))+ # cex makes the points bigger or smaller, color sets the point color (with color name recognized by R)
+  facet_wrap(vars(AGEGROUP), ncol=4)+ ## setting the column number to distribut the facest
+  theme_classic()+ ## change the background 
+  theme(axis.text=element_text(colour = "black", size = 12), ## set the axis text color and make the text bigger.
+        axis.title = element_text(face = "bold", size = 14, colour = "black")) + ## set title size and colour 
+  labs(x="Survey Year", y="% Smokers by Age Group", color="Survey Year")+ # custom axis lables 
+  scale_color_manual(values=c("dodgerblue1", "blue4")) ## differnt point colours by year
+```

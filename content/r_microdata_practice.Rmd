@@ -1,0 +1,37 @@
+---
+title: "R showcase: Statistics Canada microdata - Practice Examples"
+author: "UBC Library Research Commons"
+date: "2024-06-20"
+output: html_document
+---
+
+### Practice #1 
+
+Refer to the Create summary tables section of the content covered during the workshop to try generating your own summary table.
+
+Copy the two-variable example and try one or more of the following:
+
+-   Create your own table with different variables.
+-   Swap the *by* and *include* variables. How does this affect the percentages?
+-   Remove the *include* part of the command. What happens?
+-   **Advanced**: consult the *tbl_svysummary* documentation and figure out how to display all percentages to one decimal place.
+
+```{r}
+# Practice space
+
+
+
+```
+
+
+
+### Practice #2 
+
+Replicate your table within a plot using ggplot2
+
+```{r}
+# Practice space
+
+
+
+```
