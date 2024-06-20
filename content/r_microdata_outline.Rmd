@@ -1,5 +1,5 @@
 ---
-title: "Survey microdata in R"
+title: "R showcase: Statistics Canada microdata"
 author: "UBC Library Research Commons"
 date: "2024-06-20"
 output: html_document
@@ -12,14 +12,22 @@ Choose a working directory for the project files. In RStudio go to *Session -\> 
 ## Install and load required packages
 
 ```{r}
-#Check for required packages and install any that aren't present
 
+required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2")
 
-#Load required packages for use in this R session
+# Loop through each required package and install any that are missing
+for (package in required_packages) {
+    if (!package %in% installed.packages()) {
+        install.packages(package)
+    }
+}
+
+#Load required packages for use in this R session (HIDE OUTPUT)
 library(haven)     #to import SPSS .sav file 
 library(dplyr)     #for data manipulation
 library(srvyr)     #survey-specific functions
 library(gtsummary) #create summary tables
+library(ggplot2)   #create plots
 
 ```
 
@@ -51,18 +59,30 @@ Look in the RStudio *Files* tab in the bottom right of the screen. You should se
 
 ## Set up your survey data for analysis
 
-The *read_sav* function from the *haven* package imports SPSS .sav files as *data.frames*, which are similar to spreadsheets. It also imports variable and value labels to make the data easier to work with. During the import process we can perform other operations to prepare the data for analysis.
+The *read_sav* function from the *haven* package imports SPSS .sav files as *data.frames*, which are similar to spreadsheets. It also imports variable and value labels to make the data easier to work with.
+
+```{r}
+
+#Import the .sav files and store them as 'ctns2020' and 'ctns2022'
+data2020 <- read_sav("ctns_2020_pumf_eng.sav")
+data2022 <- read_sav("ctns_2022_pumf.sav")
+
+```
+
+It is important to check that your data imported correctly. Click 'data2020' and 'data2022' in the environment pane (top right) to view the imported data. Is it what you expect?
+
+After confirming that the data imported correctly we can perform other other operations to prepare the data for analysis.
 
 > **Note:** The code below uses the *pipe* operator from the *dplyr* package to perform multiple functions in sequence. The *%\>%* at the end of each lines tells R to take the output of that line and "pipe" it into the next line for further processing.
 
 ```{r}
 
-ctns2020 <- read_sav("ctns_2020_pumf_eng.sav")  %>% 
+ctns2020 <- data2020 %>%
   as_factor() %>%   #for better labels and data handling
   droplevels() %>%  #remove levels that have no data (tidier tables)
   as_survey(weights=WTPP)  #treat as a survey with weight variable WTPP
   
-ctns2022 <- read_sav("ctns_2022_pumf.sav")  %>% 
+ctns2022 <- data2022 %>%
   as_factor() %>% 
   droplevels() %>%  
   as_survey(weights=WTPP) 
@@ -88,7 +108,7 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 ### CTNS 2022
 
 | variable   | notes                                                                        |
-|--------------------|----------------------------------------------------|
+|-----------------------|-------------------------------------------------|
 | GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
 | AGEGROUP   | age groups from 15 to 65+                                                    |
 | *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
@@ -102,6 +122,7 @@ There are many ways to create tables in R. The *tbl_svysummary* function from th
 Here's a sample table with one variable...
 
 ```{r}
+
 #Table estimating population by smoking status, CTNS 2020
 tbl_svysummary(ctns2020, include=DV_SSR)
 
@@ -110,13 +131,15 @@ tbl_svysummary(ctns2020, include=DV_SSR)
 ...and another with two variables:
 
 ```{r}
+
 #Table estimating population by smoking status and household size, CTNS 2020
 tbl_svysummary(ctns2020, include=DV_SSR, by=HHLDSIZE)
+
 ```
 
 The second table comes with a warning: in 70 records the HHLDSIZE variable is *na* and these were removed from the analysis.
 
-### Practice #1
+### Practice #1 (move to extra half-hour)
 
 Copy the two-variable example and try one or more of the following:
 
@@ -141,6 +164,7 @@ Let's plot the percentages from the table about smoking status and household siz
 ### Step 1: Create a summary table and store it as *plot1_data*
 
 ```{r}
+
 plot1_data <- ctns2020 %>%
   filter(!is.na(HHLDSIZE) & !is.na(DV_SSR)) %>%  #remove NA values
   group_by(HHLDSIZE, DV_SSR) %>%  #group by household size, then smoking status
@@ -155,35 +179,42 @@ Click *plot1_data* in the environment pane (top right) and see how percentages a
 *ggplot2* is a powerful and popular package for creating plots. Key components of a ggplot commond include the *aes* function (identifies the variables) and the *geom* function (sets the plot type). There are many, many other optional components to customize the plot (see ggplot documentation).
 
 ```{r}
+
 plot1_data %>%
   ggplot(aes(y=percent, x=HHLDSIZE, fill=DV_SSR))+
   geom_col(position="dodge")
 
 ```
+
 ## Current smoker percentage by age group, 2020 and 2022
 
 This graph will compare the proportion of current smokers across two survey years, within each age group.
 
 The structure of the command is similar to what we've seen already, but there are new components to data calculation step:
 
-1. Specify _vartype="ci"_ to calculate 95% confidence intervals
-2. After calculating percentages, keep only the "Current smoker" rows
-3. Add a _year_ variable to distinguish between survey years
-4. Rename the smoking status variable so it's the same for both years
+1.  Specify *vartype="ci"* to calculate 95% confidence intervals
+2.  After calculating percentages, keep only the "Current smoker" rows
+3.  Add a *year* variable to distinguish between survey years
+4.  Rename the smoking status variable so it's the same for both years
 
 ### Step 1: calculate 2020 values
+
 ```{r}
+
 plot2_data_2020 <- ctns2020 %>%
-  filter(!is.na(DV_SSR)) %>%
+# filter(!is.na(DV_SSR)) %>%
   group_by(AGEGROUP, DV_SSR) %>%  
   summarize(percent = survey_prop(vartype="ci")*100) %>%
   filter(DV_SSR == 'Current smoker') %>%
   mutate(year = "2020") %>%
   rename(smoking_status = DV_SSR)
+
 ```
 
 ### Step 2: calculate 2022 values and join with 2020
+
 ```{r}
+
 plot2_data_2022 <- ctns2022 %>%
   filter(!is.na(DV_SS)) %>%
   group_by(AGEGROUP, DV_SS) %>%  
@@ -193,20 +224,25 @@ plot2_data_2022 <- ctns2022 %>%
   rename(smoking_status = DV_SS)
 
 plot2_data <- full_join(plot2_data_2020, plot2_data_2022)
+
 ```
 
 ### Step 3: plot the data
 
 ```{r}
+
 plot2_data %>%
   ggplot(aes(x=percent, y=AGEGROUP, fill=year))+
   geom_col(position="dodge")
+
 ```
+
 The bar graph shows relatively small changes between the years within each age group. The percentage of current smokers in some age groups went up, in others it went down, and there's no strong pattern. Is the direction of change significant?
 
-When calculating percentages we added the _vartype="ci"_ parameter to generate confidence intervals. These can be plotted on a line graph that shows the current smoker proportions for each age group in black, along with a semi-transparent (_alpha=0.5_) gray band depicting the confidence intervals.
+When calculating percentages we added the *vartype="ci"* parameter to generate confidence intervals. These can be plotted on a line graph that shows the current smoker proportions for each age group in black, along with a semi-transparent (*alpha=0.5*) gray band depicting the confidence intervals.
 
 ```{r}
+
 plot2_data %>%
   ggplot(aes(x=year, y=percent, group=AGEGROUP))+
   geom_line(color="blue")+
@@ -214,5 +250,7 @@ plot2_data %>%
                   ymax = percent_upp), 
                   fill = "gray", alpha = 0.5) +
   facet_wrap(vars(AGEGROUP))
+
 ```
+
 The graph makes it clear that the confidence intervals are relatively wide for some age groups: we can't say with 95% certainty that the actual direction of change in the percentage of smokers in Canada matches what we see in this survey sample.
