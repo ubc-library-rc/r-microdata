@@ -1,0 +1,218 @@
+---
+title: "Survey microdata in R"
+author: "UBC Library Research Commons"
+date: "2024-06-20"
+output: html_document
+---
+
+## Set the working directory
+
+Choose a working directory for the project files. In RStudio go to *Session -\> Set Working Directory -\> Choose Directory*, then select a location.
+
+## Install and load required packages
+
+```{r}
+#Check for required packages and install any that aren't present
+
+
+#Load required packages for use in this R session
+library(haven)     #to import SPSS .sav file 
+library(dplyr)     #for data manipulation
+library(srvyr)     #survey-specific functions
+library(gtsummary) #create summary tables
+
+```
+
+## Download and unzip the microdata
+
+This workshop uses Public Use Microdata Files (PUMFs) from the *Canadian Tobacco and Nicotine Survey* (CTNS). PUMFs for the CTNS and other Statistics Canada surveys are available in Abacus, UBC Library's data repository (<https://abacus.library.ubc.ca/>).
+
+Survey data can be downloaded by visiting Abacus with a browser, but R can automate the process using the Abacus API. Each Abacus file has a persistent identifier called a *handle*. Listed below are the CTNS data files used in this example. (Links are to the Abacus records where you'll also find codebooks and user guides.)
+
+| Survey                                                 | File description              | File name                   | Handle                    |
+|------------------|------------------|-------------------|------------------|
+| [CTNS 2020](https://hdl.handle.net/11272.1/AB2/UYC0Z8) | Microdata in SPSS .sav format | CTNS_2020_PUMF_SPSS_sav.zip | 11272.1/AB2/UYC0Z8/XVITQW |
+| [CTNS 2022](https://hdl.handle.net/11272.1/AB2/PWWFK3) | Microdata in SPSS .sav format | CTNS_2022_SPSS_SAV.zip      | 11272.1/AB2/PWWFK3/4K96XZ |
+
+Run the code below to download and unzip data files for the 2020 and 2022 survey years
+
+```{r}
+
+download.file("https://abacus.library.ubc.ca/api/access/datafile/:persistentId?persistentId=hdl:11272.1/AB2/UYC0Z8/XVITQW","CTNS_2020.zip", mode="wb")
+
+download.file("https://abacus.library.ubc.ca/api/access/datafile/:persistentId?persistentId=hdl:11272.1/AB2/PWWFK3/4K96XZ","CTNS_2022.zip", mode="wb")
+
+unzip("CTNS_2020.zip")
+unzip("CTNS_2022.zip")
+
+```
+
+Look in the RStudio *Files* tab in the bottom right of the screen. You should see the unzipped ".sav" files in your working directory.
+
+## Set up your survey data for analysis
+
+The *read_sav* function from the *haven* package imports SPSS .sav files as *data.frames*, which are similar to spreadsheets. It also imports variable and value labels to make the data easier to work with. During the import process we can perform other operations to prepare the data for analysis.
+
+> **Note:** The code below uses the *pipe* operator from the *dplyr* package to perform multiple functions in sequence. The *%\>%* at the end of each lines tells R to take the output of that line and "pipe" it into the next line for further processing.
+
+```{r}
+
+ctns2020 <- read_sav("ctns_2020_pumf_eng.sav")  %>% 
+  as_factor() %>%   #for better labels and data handling
+  droplevels() %>%  #remove levels that have no data (tidier tables)
+  as_survey(weights=WTPP)  #treat as a survey with weight variable WTPP
+  
+ctns2022 <- read_sav("ctns_2022_pumf.sav")  %>% 
+  as_factor() %>% 
+  droplevels() %>%  
+  as_survey(weights=WTPP) 
+
+```
+
+## Identify variables for analysis
+
+Codebooks help you identify variables for your analysis. Our example uses the variables below but you're welcome to experiment with others during practice.
+
+> **Note:** Variables are not always consistent between survey years: names may change and variables may be added or removed.
+
+### CTNS 2020
+
+| variable | notes                                                  |
+|----------|--------------------------------------------------------|
+| GENDER   | binary variable, confuses gender and sex (Female/Male) |
+| AGEGROUP | age groups from 15 to 65+                              |
+| HHLDSIZE | household size from 1 to 5+                            |
+| DV_SSR   | smoking status (current/former/never) *DV_SS in 2022*  |
+| PROV_C   | province                                               |
+
+### CTNS 2022
+
+| variable   | notes                                                                        |
+|--------------------|----------------------------------------------------|
+| GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
+| AGEGROUP   | age groups from 15 to 65+                                                    |
+| *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
+| DV_SS      | smoking status (current/former/never) *DV_SSR in 2020*                       |
+| PROV_C     | province                                                                     |
+
+## Create summary tables
+
+There are many ways to create tables in R. The *tbl_svysummary* function from the *gtsummary* package takes advantage of the survey weight we configured earlier and produces easy-to-read tables with little effort.
+
+Here's a sample table with one variable...
+
+```{r}
+#Table estimating population by smoking status, CTNS 2020
+tbl_svysummary(ctns2020, include=DV_SSR)
+
+```
+
+...and another with two variables:
+
+```{r}
+#Table estimating population by smoking status and household size, CTNS 2020
+tbl_svysummary(ctns2020, include=DV_SSR, by=HHLDSIZE)
+```
+
+The second table comes with a warning: in 70 records the HHLDSIZE variable is *na* and these were removed from the analysis.
+
+### Practice #1
+
+Copy the two-variable example and try one or more of the following:
+
+-   Create your own table with different variables.
+-   Swap the *by* and *include* variables. How does this affect the percentages?
+-   Remove the *include* part of the command. What happens?
+-   **Advanced**: consult the *tbl_svysummary* documentation and figure out how to display all percentages to one decimal place.
+
+```{r}
+# Practice space
+
+
+
+```
+
+## Create plots
+
+Formatted tables are good for presentations but unformatted statistics are easier to plot. The workflow below uses functions from three packages to summarize and present survey data in bar graphs (*dplyr*, *srvyr*, and *ggplot2*).
+
+Let's plot the percentages from the table about smoking status and household size.
+
+### Step 1: Create a summary table and store it as *plot1_data*
+
+```{r}
+plot1_data <- ctns2020 %>%
+  filter(!is.na(HHLDSIZE) & !is.na(DV_SSR)) %>%  #remove NA values
+  group_by(HHLDSIZE, DV_SSR) %>%  #group by household size, then smoking status
+  summarize(percent = survey_prop()*100) #calculate percentages for each grouped value
+
+```
+
+Click *plot1_data* in the environment pane (top right) and see how percentages are calculated. (They total 100% for each household size).
+
+### Step 2: pipe the data into ggplot2
+
+*ggplot2* is a powerful and popular package for creating plots. Key components of a ggplot commond include the *aes* function (identifies the variables) and the *geom* function (sets the plot type). There are many, many other optional components to customize the plot (see ggplot documentation).
+
+```{r}
+plot1_data %>%
+  ggplot(aes(y=percent, x=HHLDSIZE, fill=DV_SSR))+
+  geom_col(position="dodge")
+
+```
+## Current smoker percentage by age group, 2020 and 2022
+
+This graph will compare the proportion of current smokers across two survey years, within each age group.
+
+The structure of the command is similar to what we've seen already, but there are new components to data calculation step:
+
+1. Specify _vartype="ci"_ to calculate 95% confidence intervals
+2. After calculating percentages, keep only the "Current smoker" rows
+3. Add a _year_ variable to distinguish between survey years
+4. Rename the smoking status variable so it's the same for both years
+
+### Step 1: calculate 2020 values
+```{r}
+plot2_data_2020 <- ctns2020 %>%
+  filter(!is.na(DV_SSR)) %>%
+  group_by(AGEGROUP, DV_SSR) %>%  
+  summarize(percent = survey_prop(vartype="ci")*100) %>%
+  filter(DV_SSR == 'Current smoker') %>%
+  mutate(year = "2020") %>%
+  rename(smoking_status = DV_SSR)
+```
+
+### Step 2: calculate 2022 values and join with 2020
+```{r}
+plot2_data_2022 <- ctns2022 %>%
+  filter(!is.na(DV_SS)) %>%
+  group_by(AGEGROUP, DV_SS) %>%  
+  summarize(percent = survey_prop(vartype="ci")*100) %>%
+  filter(DV_SS == 'Current smoker') %>%
+  mutate(year = "2022") %>%
+  rename(smoking_status = DV_SS)
+
+plot2_data <- full_join(plot2_data_2020, plot2_data_2022)
+```
+
+### Step 3: plot the data
+
+```{r}
+plot2_data %>%
+  ggplot(aes(x=percent, y=AGEGROUP, fill=year))+
+  geom_col(position="dodge")
+```
+The bar graph shows relatively small changes between the years within each age group. The percentage of current smokers in some age groups went up, in others it went down, and there's no strong pattern. Is the direction of change significant?
+
+When calculating percentages we added the _vartype="ci"_ parameter to generate confidence intervals. These can be plotted on a line graph that shows the current smoker proportions for each age group in black, along with a semi-transparent (_alpha=0.5_) gray band depicting the confidence intervals.
+
+```{r}
+plot2_data %>%
+  ggplot(aes(x=year, y=percent, group=AGEGROUP))+
+  geom_line(color="blue")+
+  geom_ribbon(aes(ymin = percent_low, 
+                  ymax = percent_upp), 
+                  fill = "gray", alpha = 0.5) +
+  facet_wrap(vars(AGEGROUP))
+```
+The graph makes it clear that the confidence intervals are relatively wide for some age groups: we can't say with 95% certainty that the actual direction of change in the percentage of smokers in Canada matches what we see in this survey sample.
