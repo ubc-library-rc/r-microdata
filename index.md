@@ -45,5 +45,5 @@ At the end of this workshop, you will be able to:
 
 ### For support finding or working with data:
 
-- Jeremy Buhler, Data Librarian, UBC Library (<a href="mailto:jeremy.buhler@ubc.ca">jeremy.buhler@ubc.ca</a> 
-- Paul Lesack, Data/GIS Analyst, UBC Library (<a href="mailto:paul.lesack@ubc.ca">paul.lesack@ubc.ca</a> 
+- Jeremy Buhler, Data Librarian, UBC Library <a href="mailto:jeremy.buhler@ubc.ca">jeremy.buhler@ubc.ca</a> 
+- Paul Lesack, Data/GIS Analyst, UBC Library <a href="mailto:paul.lesack@ubc.ca">paul.lesack@ubc.ca</a> 
