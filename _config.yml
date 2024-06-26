@@ -1,7 +1,7 @@
 title: "R showcase: StatCan microdata"
 remote_theme: ubc-library-rc/rc-theme
 color_scheme: rc
-github_repo_url: "https://github.com/ubc-library-rc/UBC_Microdata/" 
+github_repo_url: "https://github.com/ubc-library-rc/r-microdata/" 
 
 # license information for workshop content
 license_name: "Creative Commons Attribution 4.0 International License"
