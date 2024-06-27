@@ -40,7 +40,7 @@ This workshop uses Public Use Microdata Files (PUMFs) from the *Canadian Tobacco
 Survey data can be downloaded by visiting Abacus with a browser, but R can automate the process using the Abacus API. Each Abacus file has a persistent identifier called a *handle*. Listed below are the CTNS data files used in this example. (Links are to the Abacus records where you'll also find codebooks and user guides.)
 
 | Survey                                                 | File description              | File name                   | Handle                    |
-|------------------|------------------|-------------------|------------------|
+|--------------------------------------------------------|-------------------------------|-----------------------------|---------------------------|
 | [CTNS 2020](https://hdl.handle.net/11272.1/AB2/UYC0Z8) | Microdata in SPSS .sav format | CTNS_2020_PUMF_SPSS_sav.zip | 11272.1/AB2/UYC0Z8/XVITQW |
 | [CTNS 2022](https://hdl.handle.net/11272.1/AB2/PWWFK3) | Microdata in SPSS .sav format | CTNS_2022_SPSS_SAV.zip      | 11272.1/AB2/PWWFK3/4K96XZ |
 
@@ -110,7 +110,7 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 ### CTNS 2022
 
 | variable   | notes                                                                        |
-|------------------------|------------------------------------------------|
+|------------|------------------------------------------------------------------------------|
 | GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
 | AGEGROUP   | age groups from 15 to 65+                                                    |
 | *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
