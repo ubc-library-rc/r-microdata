@@ -9,7 +9,7 @@ output:
 
 ## Set the working directory
 
-The default working directory for an RMarkdown file is the location of the file (e.g. your "Downloads" folder if you just downloaded and opened it). To save workshop files to a different location, in RStudio go to *File -> Save As ->* and choose a location you will remember. 
+The default working directory for an RMarkdown file is the location of the file (e.g. your "Downloads" folder if you just downloaded and opened it). To save workshop files to a different location, in RStudio go to *File -\> Save As -\>* and choose a location you will remember.
 
 ## Install and load required packages
 
@@ -110,7 +110,7 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 ### CTNS 2022
 
 | variable   | notes                                                                        |
-|-----------------------|------------------------------------------------|
+|------------------------|------------------------------------------------|
 | GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
 | AGEGROUP   | age groups from 15 to 65+                                                    |
 | *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
@@ -141,7 +141,6 @@ tbl_svysummary(ctns2020, include=DV_SSR, by=HHLDSIZE)
 
 The second table comes with a warning: in 70 records the HHLDSIZE variable is *na* and these were removed from the analysis.
 
-
 ## Create plots
 
 Formatted tables are good for presentations but unformatted statistics are easier to plot. The workflow below uses functions from three packages to summarize and present survey data in bar graphs (*dplyr*, *srvyr*, and *ggplot2*).
@@ -163,7 +162,7 @@ Click *plot1_data* in the environment pane (top right) and see how percentages a
 
 ### Step 2: pipe the data into ggplot2
 
-*ggplot2* is a powerful and popular package for creating plots. Key components of a ggplot commond include the *aes* function (identifies the variables) and the *geom* function (sets the plot type). There are many, many other optional components to customize the plot (see ggplot documentation).
+*ggplot2* is a powerful and popular package for creating plots. Key components of a ggplot command include the *aes* function (identifies the variables) and the *geom* function (sets the plot type). There are many, many other optional components to customize the plot (see ggplot documentation).
 
 ```{r}
 
@@ -244,8 +243,9 @@ plot2_data %>%
 
 The graph makes it clear that the confidence intervals are relatively wide for some age groups: we can't say with 95% certainty that the actual direction of change in the percentage of smokers in Canada matches what we see in this survey sample.
 
-### Step 5: Customize the plot 
-This is meant as an illustrative example of how customization plots made with ggplot2 are. There are many options for customization, so this is by no means extensive. 
+### Step 5: Customize the plot
+
+This is meant as an illustrative example of how customization plots made with ggplot2 are. There are many options for customization, so this is by no means extensive.
 
 ```{r}
 
