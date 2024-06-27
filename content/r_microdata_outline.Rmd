@@ -9,7 +9,7 @@ output:
 
 ## Set the working directory
 
-Choose a working directory for the project files. In RStudio go to *Session -\> Set Working Directory -\> Choose Directory*, then select a location.
+The default working directory for an RMarkdown file is the location of the file (e.g. your "Downloads" folder if you just downloaded and opened it). To save workshop files to a different location, in RStudio go to *File -> Save As ->* and choose a location you will remember. 
 
 ## Install and load required packages
 
