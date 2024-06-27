@@ -7,15 +7,15 @@ nav_order: 6
 
 The example in this workshop is the _Canadian Tobacco and Nicotine Survey (CTNS)_ from Statistics Canada. We will use the CTNS PUMF for two survey years available in Abacus:
 
-- [2020 CTNS PUMF](https://hdl.handle.net/11272.1/AB2/UYC0Z8)
-- [2022 CTNS PUMF](https://hdl.handle.net/11272.1/AB2/PWWFK3)
+- [2020 CTNS PUMF](https://hdl.handle.net/11272.1/AB2/UYC0Z8){:target="_blank"}
+- [2022 CTNS PUMF](https://hdl.handle.net/11272.1/AB2/PWWFK3){:target="_blank"}
 
 
 ## Documentation
 Before analyzing the data it's important to read the documentation. Good survey documentation will answer these and other questions:
 
 - What is the survey's purpose? 
-- What population does it cover?
+- What is the target population?
 - When was data collected?
 - How were questions asked?
 - What variables are available?
@@ -26,7 +26,7 @@ All PUMFs will have some way to identify variables, whether it's a _codebook_, _
 {: .note}
 
 ### User guide
-The user guide usually begins with a description of the survey itself and includes sections on definitions, methodology, data collection, and more. Here's an excerpt from the survey description in the [CTNS 2022 user guide](https://hdl.handle.net/11272.1/AB2/PWWFK3) (p7).
+The user guide usually begins with a description of the survey and includes sections on definitions, methodology, data collection, and more. Here's an excerpt from the survey description in the [CTNS 2022 user guide](https://hdl.handle.net/11272.1/AB2/PWWFK3/QCE9VZ){:target="_blank"} (p7).
 
 > _The main objective of the Canadian Tobacco and Nicotine Survey (CTNS) is to gather information about the prevalence of cigarette smoking, vaping, cannabis and alcohol use._
 
@@ -46,7 +46,7 @@ Here is the CTNS 2020 cobebook entry for the GENDER variable:
 ## Weights
 The codebook frequencies lead us to a key concept: the survey *weight*. In a Statistics Canada PUMF each response represents a certain number of people in the target population. That number is represented by the weight variable.
 
-The CTNS 2022 target population "is non-institutionalized persons aged 15 years or older living in Canada's ten provinces, who are not members of collectives or living on reserves" _([CTNS 2022 User Guide](https://hdl.handle.net/11272.1/AB2/PWWFK3), p9)_
+The CTNS 2022 target population "is non-institutionalized persons aged 15 years or older living in Canada's ten provinces, who are not members of collectives or living on reserves" _([CTNS 2022 User Guide](https://hdl.handle.net/11272.1/AB2/PWWFK3/QCE9VZ){:target="_blank"}, p9)_
 {: .note}
 
 An analysis based on the number of responses will tell us about the survey _sample_ (e.g. X people who answered the survey are current smokers). More often we want to produce estimates of the population (e.g. X people in the target population are current smokers).
@@ -56,7 +56,7 @@ An analysis based on the number of responses will tell us about the survey _samp
 
 
 ## Selected CTNS variables, 2020 and 2022
-Below are selected variables we will use when we analyze the CTNS PUMF in R. Take a moment to familiarize yourself with them, and notice the difference between the 2020 and 2022 survey years. 
+Below are selected variables we will use when we analyze the CTNS PUMF in R. Take a moment to familiarize yourself with them, and notice the differences between the 2020 and 2022 survey years. 
 
 ### CTNS 2020
 
