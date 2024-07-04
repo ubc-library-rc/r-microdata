@@ -15,7 +15,7 @@ The default working directory for an RMarkdown file is the location of the file 
 
 ```{r message=FALSE}
 
-required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2")
+required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2", "ggpubr")
 
 # Loop through each required package and install any that are missing
 for (package in required_packages) {
@@ -40,7 +40,7 @@ This workshop uses Public Use Microdata Files (PUMFs) from the *Canadian Tobacco
 Survey data can be downloaded by visiting Abacus with a browser, but R can automate the process using the Abacus API. Each Abacus file has a persistent identifier called a *handle*. Listed below are the CTNS data files used in this example. (Links are to the Abacus records where you'll also find codebooks and user guides.)
 
 | Survey                                                 | File description              | File name                   | Handle                    |
-|--------------------------------------------------------|-------------------------------|-----------------------------|---------------------------|
+|---------------------|-----------------|-----------------|-----------------|
 | [CTNS 2020](https://hdl.handle.net/11272.1/AB2/UYC0Z8) | Microdata in SPSS .sav format | CTNS_2020_PUMF_SPSS_sav.zip | 11272.1/AB2/UYC0Z8/XVITQW |
 | [CTNS 2022](https://hdl.handle.net/11272.1/AB2/PWWFK3) | Microdata in SPSS .sav format | CTNS_2022_SPSS_SAV.zip      | 11272.1/AB2/PWWFK3/4K96XZ |
 
@@ -59,7 +59,7 @@ unzip("CTNS_2022.zip")
 
 Look in the RStudio *Files* tab in the bottom right of the screen. You should see the unzipped ".sav" files in your working directory.
 
-## Set up your survey data for analysis
+## Read in your sav files
 
 The *read_sav* function from the *haven* package imports SPSS .sav files as *data.frames*, which are similar to spreadsheets. It also imports variable and value labels to make the data easier to work with.
 
@@ -72,6 +72,14 @@ data2022 <- read_sav("ctns_2022_pumf.sav")
 ```
 
 It is important to check that your data imported correctly. Click 'data2020' and 'data2022' in the environment pane (top right) to view the imported data. Is it what you expect?
+
+### Why use sav files?
+
+If we compare the codebook to the data imported into R as a sav file, we can see that the codebook variables have a description directly in the header of the dataframe. If we were using a plain text format, we would loose this information.
+
+![](images/codebook_and_data.png)
+
+## Set up your survey data for analysis
 
 After confirming that the data imported correctly we can perform other other operations to prepare the data for analysis.
 
@@ -90,6 +98,10 @@ ctns2022 <- data2022 %>%
   as_survey(weights=WTPP) 
 
 ```
+
+### srvyr package
+
+In the code above we used the `as_survey` function in the *srvyr* package. We set the weight to be the [WTPP variable](https://ubc-library-rc.github.io/r-microdata/content/orientation_ctns.html#weights). After this point, the data will automatically be weighted for graphs and analyses.
 
 ## Identify variables for analysis
 
@@ -110,7 +122,7 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 ### CTNS 2022
 
 | variable   | notes                                                                        |
-|------------|------------------------------------------------------------------------------|
+|------------------|------------------------------------------------------|
 | GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
 | AGEGROUP   | age groups from 15 to 65+                                                    |
 | *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
@@ -119,7 +131,9 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 
 ## Create summary tables
 
-There are many ways to create tables in R. The *tbl_svysummary* function from the *gtsummary* package takes advantage of the survey weight we configured earlier and produces easy-to-read tables with little effort.
+### gtsummary package
+
+There are many ways to create tables in R. The `tbl_svysummary` function from the *gtsummary* package takes advantage of the survey weight we configured earlier and produces easy-to-read tables with little effort.
 
 Here's a sample table with one variable...
 
@@ -221,8 +235,7 @@ plot2_data <- full_join(plot2_data_2020, plot2_data_2022)
 
 ```{r}
 
-plot2_data %>%
-  ggplot(aes(x=percent, y=AGEGROUP, fill=year))+
+ggplot(plot2_data, aes(x=percent, y=AGEGROUP, fill=year))+
   geom_col(position="dodge")
 
 ```
@@ -232,9 +245,7 @@ The bar graph shows relatively small changes between the years within each age g
 When calculating percentages we added the *vartype="ci"* parameter to generate confidence intervals. These can be plotted on a line graph that shows the current smoker proportions for each age group in black, along with a semi-transparent (*alpha=0.5*) gray band depicting the confidence intervals.
 
 ```{r}
-
-plot2_data %>%
-  ggplot(aes(x=year, y=percent, group=AGEGROUP))+
+ggplot(plot2_data, aes(x=year, y=percent, group=AGEGROUP))+
   geom_errorbar(aes(ymin=percent_low, ymax=percent_upp), width=0.2) +
   geom_point()+
   facet_wrap(vars(AGEGROUP))
@@ -248,9 +259,7 @@ The graph makes it clear that the confidence intervals are relatively wide for s
 This is meant as an illustrative example of how customization plots made with ggplot2 are. There are many options for customization, so this is by no means extensive.
 
 ```{r}
-
-plot2_data %>%
-  ggplot(aes(x=year, y=percent, group=AGEGROUP))+
+ggplot(plot2_data, aes(x=year, y=percent, group=AGEGROUP))+
   geom_errorbar(aes(ymin=percent_low, ymax=percent_upp), 
                 width=0.4, ## change the witdh of the top and bottom horizontal line of the error bar
                 color="#737574", ## change the color of error bars (hex color)
@@ -262,4 +271,16 @@ plot2_data %>%
         axis.title = element_text(face = "bold", size = 14, colour = "black")) + ## set title size and colour 
   labs(x="Survey Year", y="% Smokers by Age Group", color="Survey Year")+ # custom axis lables 
   scale_color_manual(values=c("dodgerblue1", "blue4")) ## differnt point colours by year
+```
+
+### Step 6: Export the plot
+
+Now that we have a pretty plot, we can save it.
+
+This can be done manually from the plots tab. The plot area can be stretched and re-sized by stretching the plot area, then by clicking *Export* and saving the plot as an image or from there.
+
+To save time and export consistently sized plots, if is often better to use the package ggpubr.
+
+```{r}
+ggsave(filename="smokers_by_age_and_year.pdf", width=10, height=8, units="in")
 ```
