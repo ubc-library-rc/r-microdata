@@ -54,6 +54,37 @@ An analysis based on the number of responses will tell us about the survey _samp
 
 **WTPP** is the weight variable for the CTNS. In most cases our analysis should be based on the _sum_ of the WTPP variable, not on the count of records.  
 
+### Why use sav files?
+
+If we compare the codebook to the data imported into R as a sav file, we can see that the codebook variables have a description directly in the header of the dataframe. If we were using a plain text format, we would loose this information.
+
+![](images/codebook_and_data.png)
+
+## Set up your survey data for analysis
+
+After confirming that the data imported correctly we can perform other other operations to prepare the data for analysis.
+
+> **Note:** The code below uses the *pipe* operator from the *dplyr* package to perform multiple functions in sequence. The *%\>%* at the end of each lines tells R to take the output of that line and "pipe" it into the next line for further processing.
+
+```{r}
+
+ctns2020 <- data2020 %>%
+  as_factor() %>%   #for better labels and data handling
+  droplevels() %>%  #remove levels that have no data (tidier tables)
+  as_survey(weights=WTPP)  #treat as a survey with weight variable WTPP
+  
+ctns2022 <- data2022 %>%
+  as_factor() %>% 
+  droplevels() %>%  
+  as_survey(weights=WTPP) 
+
+```
+
+### srvyr package
+
+In the code above we used the `as_survey` function in the *srvyr* package. We set the weight to be the [WTPP variable](https://ubc-library-rc.github.io/r-microdata/content/orientation_ctns.html#weights). After this point, the data will automatically be weighted for graphs and analyses.
+
+
 
 ## Selected CTNS variables, 2020 and 2022
 Below are selected variables we will use when we analyze the CTNS PUMF in R. Take a moment to familiarize yourself with them, and notice the differences between the 2020 and 2022 survey years. 
