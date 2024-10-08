@@ -46,6 +46,7 @@ At the end of this workshop, you will be able to:
 - <a href="https://guides.library.ubc.ca/datastatistics#:~:text=Data%20and%20statistics%20from%20many%20branches%20of%20government,%20from%20agriculture" target="_blank">Data guide</a>
 
 ### For support finding or working with data:
-
-- Jeremy Buhler, Data Librarian, UBC Library <a href="mailto:jeremy.buhler@ubc.ca">jeremy.buhler@ubc.ca</a> 
-- Paul Lesack, Data/GIS Analyst, UBC Library <a href="mailto:paul.lesack@ubc.ca">paul.lesack@ubc.ca</a> 
+ 
+- Sophia Papandonatou, student Data Librarian, UBC Library <a href="mailto:sophia.papandonatou@ubc.ca">sophia.papandonatour@ubc.ca</a>
+- Paul Lesack, Data/GIS Analyst, UBC Library <a href="mailto:paul.lesack@ubc.ca">paul.lesack@ubc.ca</a>
+- (currently on leave) Jeremy Buhler, Data Librarian, UBC Library <a href="mailto:jeremy.buhler@ubc.ca">jeremy.buhler@ubc.ca</a>
