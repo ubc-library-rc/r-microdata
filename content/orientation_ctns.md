@@ -44,13 +44,12 @@ Here is the CTNS 2020 cobebook entry for the GENDER variable:
 
 
 ## Weights
-The codebook frequencies lead us to a key concept: the survey *weight*. In a Statistics Canada PUMF each response represents a certain number of people in the target population. That number is represented by the weight variable.
+The codebook frequencies lead us to a key concept: the survey *weight*. In a Statistics Canada PUMF each response represents a certain number of people in the target population. That number is represented by the weight variable. 
 
 The CTNS 2022 target population "is non-institutionalized persons aged 15 years or older living in Canada's ten provinces, who are not members of collectives or living on reserves" _([CTNS 2022 User Guide](https://hdl.handle.net/11272.1/AB2/PWWFK3/QCE9VZ){:target="_blank"}, p9)_
 {: .note}
 
-An analysis based on the number of responses will tell us about the survey _sample_ (e.g. X people who answered the survey are current smokers). More often we want to produce estimates of the population (e.g. X people in the target population are current smokers).
-
+An analysis based on the number of responses will tell us about the survey _sample_ (e.g. X people who answered the survey are current smokers). More often we want to produce estimates of the population (e.g. X people in the target population are current smokers). That is, weights are used to make the data more representative of the target population.
 
 **WTPP** is the weight variable for the CTNS. In most cases our analysis should be based on the _sum_ of the WTPP variable, not on the count of records.  
 
