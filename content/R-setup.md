@@ -6,7 +6,9 @@ nav_order: 5
 
 # Getting ready to analyze microdata
 
-**Please note that we are aiming to demonstrate the capacity of R to analyze microdata, not teach new users how to use R. For beginner R help, please take those workshops offered by the library or book a consult with the GAA.**
+**Please note that we are aiming to demonstrate the capacity of R to analyze microdata, not teach new users how to use R. For beginner R help, please take those workshops offered by the library or <a href="https://libcal.library.ubc.ca/appointments/research_commons" target="_blank">book a consult with the GAA</a>.**
+
+<p><strong>Follow along and run the code in this <a href= "https://ubc-library-rc.github.io/r-microdata/content/r_microdata_outline.Rmd" target="_blank">R Markdown file</a>.</strong></p>
 
 ## Set the working directory
 
