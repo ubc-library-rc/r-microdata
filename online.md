@@ -23,9 +23,9 @@ Use the _Chat_ window to comment or ask a question at any time. Instructors will
 
 The _Chat_ window is a good place to report problems with your audio connection. Instructors may also use it to share links to material mentioned in the session.
 <br/>
-## Share your screen
+<!-- ## Share your screen
 In some cases instructors may invite you to share your screen. Raise your hand to indicate that you're ready to share. When called upon click _Share screen_, select a window to display, and click _Share_.
-<br/>
+<br/> -->
 ## Contribute to the Whiteboard
 The _Whiteboard_ is a collaborative space that everyone can annotate with drawings and text. When the whiteboard is shared click _View options_ and select _Annotate_.
 
