@@ -66,7 +66,7 @@ After confirming that the data imported correctly we can perform other other ope
 
 > **Note:** The code below uses the *pipe* operator from the *dplyr* package to perform multiple functions in sequence. The *%\>%* at the end of each lines tells R to take the output of that line and "pipe" it into the next line for further processing.
 
-```{r}
+```r
 
 ctns2020 <- data2020 %>%
   as_factor() %>%   #for better labels and data handling
