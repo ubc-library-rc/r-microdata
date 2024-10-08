@@ -16,6 +16,7 @@ If you are new to R and want to participate fully, please install R and RStudio 
 
 - Install R from <https://cran.rstudio.com/>{:target="_blank"}
 - Install RStudio from <https://rstudio.com/products/rstudio/download/#download>{:target="_blank"}
+- <strong>Follow along and run the code in this <a href= "https://ubc-library-rc.github.io/r-microdata/content/r_microdata_outline.Rmd" target="_blank">R Markdown file</a>.</strong>
 
 
 ### Learning objectives
