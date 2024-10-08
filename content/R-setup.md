@@ -77,8 +77,4 @@ data2022 <- read_sav("ctns_2022_pumf.sav")
 
 It is important to check that your data imported correctly. Click 'data2020' and 'data2022' in the environment pane (top right) to view the imported data. Is it what you expect?
 
-### Why use sav files?
 
-If we compare the codebook to the data imported into R as a sav file, we can see that the codebook variables have a description directly in the header of the dataframe. If we were using a plain text format, we would loose this information.
-
-![](images/codebook_and_data.png)
