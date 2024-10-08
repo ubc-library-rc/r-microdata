@@ -1,10 +1,6 @@
 ---
-title: 'R showcase: Statistics Canada microdata'
-author: "UBC Library Research Commons"
-date: "2024-06-20"
-output:
-  pdf_document: default
-  html_document: default
+title: "Microdata R Code"
+output: pdf_document
 ---
 
 ## Set the working directory
@@ -15,7 +11,7 @@ The default working directory for an RMarkdown file is the location of the file 
 
 ```{r message=FALSE}
 
-required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2", "ggpubr")
+required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2", "ggpubr", "cardx")
 
 # Loop through each required package and install any that are missing
 for (package in required_packages) {
@@ -32,6 +28,7 @@ library(gtsummary) #create summary tables
 library(ggplot2)   #create plots
 library(flextable) # create tables 
 library(officer)   # manipulate word docs and power points
+library(cardx)
 
 
 ```
@@ -42,10 +39,10 @@ This workshop uses Public Use Microdata Files (PUMFs) from the *Canadian Tobacco
 
 Survey data can be downloaded by visiting Abacus with a browser, but R can automate the process using the Abacus API. Each Abacus file has a persistent identifier called a *handle*. Listed below are the CTNS data files used in this example. (Links are to the Abacus records where you'll also find codebooks and user guides.)
 
-| Survey                                                 | File description              | File name                   | Handle                    |
-|--------------------|-----------------|-----------------|-----------------|
+| Survey | File description | File name | Handle |
+|--------------------|------------------|------------------|------------------|
 | [CTNS 2020](https://hdl.handle.net/11272.1/AB2/UYC0Z8) | Microdata in SPSS .sav format | CTNS_2020_PUMF_SPSS_sav.zip | 11272.1/AB2/UYC0Z8/XVITQW |
-| [CTNS 2022](https://hdl.handle.net/11272.1/AB2/PWWFK3) | Microdata in SPSS .sav format | CTNS_2022_SPSS_SAV.zip      | 11272.1/AB2/PWWFK3/4K96XZ |
+| [CTNS 2022](https://hdl.handle.net/11272.1/AB2/PWWFK3) | Microdata in SPSS .sav format | CTNS_2022_SPSS_SAV.zip | 11272.1/AB2/PWWFK3/4K96XZ |
 
 Run the code below to download and unzip data files for the 2020 and 2022 survey years
 
@@ -80,9 +77,7 @@ It is important to check that your data imported correctly. Click 'data2020' and
 
 If we compare the codebook to the data imported into R as a sav file, we can see that the codebook variables have a description directly in the header of the dataframe. If we were using a plain text format, we would loose this information.
 
-![](images/codebook_and_data.png)
-
-## Set up your survey data for analysis
+Set up your survey data for analysis
 
 After confirming that the data imported correctly we can perform other other operations to prepare the data for analysis.
 
@@ -124,13 +119,13 @@ Codebooks help you identify variables for your analysis. Our example uses the va
 
 ### CTNS 2022
 
-| variable   | notes                                                                        |
-|-------------------|-----------------------------------------------------|
-| GENDER     | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
-| AGEGROUP   | age groups from 15 to 65+                                                    |
-| *HHLDSIZE* | *not available in 2022 PUMF*                                                 |
-| DV_SS      | smoking status (current/former/never) *DV_SSR in 2020*                       |
-| PROV_C     | province                                                                     |
+| variable | notes |
+|--------------------|----------------------------------------------------|
+| GENDER | acknowledges non-binary identities but groups them for privacy (Women+/Men+) |
+| AGEGROUP | age groups from 15 to 65+ |
+| *HHLDSIZE* | *not available in 2022 PUMF* |
+| DV_SS | smoking status (current/former/never) *DV_SSR in 2020* |
+| PROV_C | province |
 
 ## Create summary tables
 
@@ -151,18 +146,18 @@ tbl_svysummary(ctns2020, include=DV_SSR)
 
 ```{r}
 
-#Table estimating population by smoking status and household size, CTNS 2020
-tbl_svysummary(ctns2020, include=DV_SSR, by=HHLDSIZE)
+#Table estimating population by smoking status and province, CTNS 2020
+tbl_svysummary(ctns2020, include=DV_SSR, by=PROV_C)
 
 ```
 
-The second table comes with a warning: in 70 records the HHLDSIZE variable is *na* and these were removed from the analysis.
+### Saving tables to a word document
 
-### Saving tables to a word document 
+HHLDSIZE
 
 ```{r}
 # Create the summary table
-summary_table <- tbl_svysummary(ctns2020, include = DV_SSR, by = HHLDSIZE)
+summary_table <- tbl_svysummary(ctns2020, include = DV_SSR, by = PROV_C)
 
 # Extract the data frame from the gtsummary object
 summary_df <- summary_table %>% 
@@ -183,13 +178,13 @@ print(doc, target = "summary_table.docx")
 
 ```
 
-## Create plots
+## Create plots [in ggplot2](https://ubc-library-rc.github.io/ggplot2_intro_workshop/)
 
 Formatted tables are good for presentations but unformatted statistics are easier to plot. The workflow below uses functions from three packages to summarize and present survey data in bar graphs (*dplyr*, *srvyr*, and *ggplot2*).
 
 Let's plot the percentages from the table about smoking status and household size.
 
-### Step 1: Create a summary table and store it as *plot1_data*
+### Step 1: Create a summary table (Household size and smoking status) and store it as *plot1_data*
 
 ```{r}
 
