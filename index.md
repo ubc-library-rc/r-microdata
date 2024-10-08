@@ -42,6 +42,7 @@ At the end of this workshop, you will be able to:
 - <a href="https://guides.library.ubc.ca/datastatistics/microdata#:~:text=Microdata%20provides%20a%20way%20to,considerations%20for%20privacy%20and%20confidentiality." target="_blank">Microdata page</a> from UBC Library's _Data and Statistics_ guide
 - <a href="https://www.statcan.gc.ca/en/microdata" target="_blank">General information about Microdata</a> from Statistics Canada website
 - <a href="https://abacus.library.ubc.ca/dataverse/statcan-public" target="_blank">Statistics Canada Open License</a> collection in Abacus (for PUMFs and other Statistics Canada datasets)
+- <a href="https://guides.library.ubc.ca/datastatistics#:~:text=Data%20and%20statistics%20from%20many%20branches%20of%20government,%20from%20agriculture" target="_blank">Data guide</a>
 
 ### For support finding or working with data:
 
