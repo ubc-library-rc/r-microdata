@@ -1,8 +1,8 @@
 ---
-title: "Microdata R Code"
-output: pdf_document
+output:
+  pdf_document: default
+  html_document: default
 ---
-
 ## Set the working directory
 
 The default working directory for an RMarkdown file is the location of the file (e.g. your "Downloads" folder if you just downloaded and opened it). To save workshop files to a different location, in RStudio go to *File -\> Save As -\>* and choose a location you will remember.
@@ -11,7 +11,7 @@ The default working directory for an RMarkdown file is the location of the file 
 
 ```{r message=FALSE}
 
-required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2", "ggpubr", "cardx")
+required_packages <- c("haven", "dplyr", "srvyr", "gtsummary", "ggplot2", "flextable", "officer")
 
 # Loop through each required package and install any that are missing
 for (package in required_packages) {
@@ -28,8 +28,6 @@ library(gtsummary) #create summary tables
 library(ggplot2)   #create plots
 library(flextable) # create tables 
 library(officer)   # manipulate word docs and power points
-library(cardx)
-
 
 ```
 
